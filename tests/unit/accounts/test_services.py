@@ -247,6 +247,10 @@ class TestDatabaseUserService:
         assert user_from_db.username == user.username
         assert password != user_from_db.password
         assert user_service.hasher.verify(password, user_from_db.password)
+        website = "https://en.wikipedia.org/wiki/Python_%28programming_language%29"
+        user_service.update_user(user.id, website=website)
+        user_from_db = user_service.get_user(user.id)
+        assert user_from_db.website == website
 
     def test_update_user_without_pw(self, user_service):
         user = UserFactory.create()
